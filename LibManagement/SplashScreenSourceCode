@@ -1,0 +1,87 @@
+import javax.swing.*;
+import java.awt.*;
+
+public class BiblioTechSplashScreen {
+    private final JWindow splashWindow;
+    private final JProgressBar progressBar;
+
+    public BiblioTechSplashScreen() {
+        splashWindow = new JWindow();
+
+        // panel ///
+        JPanel content = new JPanel(new BorderLayout(10, 10));
+        content.setBackground(new Color(245, 247, 250)); // kulay ng background ///
+        content.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(180, 180, 180)), // para sa border ///
+                BorderFactory.createEmptyBorder(20, 20, 20, 20) // spacing ///
+        ));
+
+        // title ///
+        JLabel title = new JLabel(" Welcome to Biblio'Tech ", SwingConstants.CENTER);
+        title.setFont(new Font("SansSerif", Font.BOLD, 20));
+        title.setForeground(new Color(40, 70, 130)); // kulay ng text ///
+        content.add(title, BorderLayout.NORTH);
+
+        // loading text ///
+        JLabel loadingLabel = new JLabel("Loading references...", SwingConstants.CENTER);
+        loadingLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        loadingLabel.setForeground(new Color(60, 60, 60));
+        content.add(loadingLabel, BorderLayout.CENTER);
+
+        // progress bar ///
+        progressBar = new JProgressBar(0, 100);
+        progressBar.setStringPainted(true); // may percentage ///
+        progressBar.setForeground(new Color(60, 100, 200)); // kulay ng bar ///
+        progressBar.setBackground(Color.WHITE);
+        content.add(progressBar, BorderLayout.SOUTH);
+
+        splashWindow.getContentPane().add(content);
+        splashWindow.setSize(320, 160);
+
+        // centerfield ///
+        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        splashWindow.setLocation((screen.width - 320) / 2, (screen.height - 160) / 2);
+    }
+
+    // screen ///
+    public void showSplash() {
+        splashWindow.setVisible(true);
+
+        for (int i = 0; i <= 100; i += 5) {
+            final int progress = i;
+            try {
+                Thread.sleep(120); // pause window ///
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            SwingUtilities.invokeLater(() -> progressBar.setValue(progress)); // update ng progress ///
+        }
+
+        splashWindow.setVisible(false);
+        splashWindow.dispose();
+    }
+
+    // main scene ///
+    public void showMainApp() {
+        JFrame frame = new JFrame("Biblio'Tech");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(450, 300);
+        frame.setLocationRelativeTo(null);
+
+        JLabel welcome = new JLabel(
+                "<html><center>Welcome to <b>Biblio'Tech</b><br>Efficient Book Management System</center></html>",
+                SwingConstants.CENTER
+        );
+        welcome.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        frame.add(welcome);
+
+        frame.setVisible(true);
+    }
+
+    // main ///
+    public static void main(String[] args) {
+        BiblioTechSplashScreen splashScreen = new BiblioTechSplashScreen();
+        splashScreen.showSplash();
+        splashScreen.showMainApp();
+    }
+}
